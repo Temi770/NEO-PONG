@@ -1,0 +1,509 @@
+:root {
+    --neon-1: #00f0ff;
+    --neon-2: #00b8c8;
+    --glass-bg: rgba(255, 255, 255, 0.04);
+    --btn-radius: 14px;
+    --btn-ease: cubic-bezier(.2, .9, .2, 1);
+    --max-width: 1100px;
+}
+
+/* Page layout */
+* {
+    box-sizing: border-box
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    background: linear-gradient(180deg, #0a0f1a, #111827);
+    font-family: 'Segoe UI', system-ui, -apple-system, "Helvetica Neue", Arial;
+    color: #e6f7fb;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+#app-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 12px;
+    gap: 12px;
+    min-height: 100vh
+}
+
+/* Top UI */
+.top-ui {
+    width: 100%;
+    max-width: var(--max-width);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 6px 12px
+}
+
+.mode-buttons {
+    display: flex;
+    gap: 8px
+}
+
+.game-buttons {
+    display: flex;
+    gap: 8px
+}
+
+.scoreboard {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--neon-1)
+}
+
+/* Game wrapper */
+#game-wrap {
+    width: 100%;
+    max-width: var(--max-width);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    position: relative
+}
+
+/* Canvas base styling */
+#gameCanvas {
+    display: block;
+    width: 720px;
+    /* default desktop CSS size */
+    height: 480px;
+    border-radius: 20px;
+    background: radial-gradient(circle at center, #1a1f2e, #0a0f1a);
+    box-shadow: 0 20px 80px rgba(0, 240, 255, 0.18), inset 0 2px 8px rgba(255, 255, 255, 0.04);
+    touch-action: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* Touch controls */
+.touch-controls {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px
+}
+
+.touch-btn {
+    background: linear-gradient(180deg, #0b1220, #071018);
+    color: #e6f7fb;
+    width: 70px;
+    height: 50px;
+    border-radius: 18px;
+    border: none;
+    font-weight: 700;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.6), 0 6px 18px rgba(0, 240, 255, 0.12);
+    cursor: pointer
+}
+
+/* Buttons base */
+.mode-btn,
+.control-btn {
+    position: relative;
+    overflow: visible;
+    transition: transform 220ms var(--btn-ease), box-shadow 220ms var(--btn-ease), filter 220ms var(--btn-ease);
+    outline: none;
+    border-radius: var(--btn-radius);
+    border: none;
+    padding: 8px 14px;
+    font-weight: 700;
+    cursor: pointer;
+    color: #001f24;
+    background: linear-gradient(180deg, var(--neon-1), var(--neon-2));
+    box-shadow: 0 8px 30px rgba(0, 240, 255, 0.18)
+}
+
+.mode-btn.active {
+    background: linear-gradient(180deg, #00ffcc, #00b8c8)
+}
+
+.mode-btn:hover,
+.control-btn:hover,
+.mode-btn:focus,
+.control-btn:focus {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 18px 40px rgba(0, 240, 255, 0.12), 0 6px 18px rgba(0, 200, 220, 0.12), 0 0 28px rgba(0, 240, 255, 0.12) inset;
+    filter: saturate(1.05)
+}
+
+.mode-btn.pressed,
+.control-btn.pressed {
+    transform: translateY(-2px) scale(0.99)
+}
+
+.btn-ripple {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    pointer-events: none;
+    overflow: hidden;
+    border-radius: inherit
+}
+
+.btn-ripple .ripple {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: rgba(255, 255, 255, 0.85);
+    border-radius: 50%;
+    transform: scale(0);
+    opacity: 0.9;
+    animation: rippleAnim 600ms ease-out forwards
+}
+
+@keyframes rippleAnim {
+    to {
+        transform: scale(30);
+        opacity: 0
+    }
+}
+
+/* Score pulse */
+@keyframes scorePulse {
+    0% {
+        transform: scale(1);
+        text-shadow: 0 0 8px var(--neon-1)
+    }
+
+    50% {
+        transform: scale(1.3);
+        text-shadow: 0 0 20px var(--neon-1)
+    }
+
+    100% {
+        transform: scale(1);
+        text-shadow: 0 0 8px var(--neon-1)
+    }
+}
+
+.scoreboard span.scored {
+    animation: scorePulse .6s ease
+}
+
+/* Responsive rules */
+
+/* Desktop */
+@media (min-width: 901px) {
+    #gameCanvas {
+        width: 800px;
+        height: 600px
+    }
+
+    .scoreboard {
+        font-size: 22px
+    }
+}
+
+/* Tablet */
+@media (min-width:601px) and (max-width:900px) {
+    #gameCanvas {
+        width: 90vw;
+        height: calc(90vw * 0.75)
+    }
+}
+
+/* Mobile portrait: tall canvas */
+@media (max-width:600px) and (orientation:portrait) {
+    #gameCanvas {
+        width: 95vw;
+        height: calc(95vw * 1.6);
+        border-radius: 12px
+    }
+
+    .touch-controls {
+        margin-top: 6px
+    }
+
+    .mode-btn,
+    .control-btn {
+        padding: 8px 10px
+    }
+}
+
+/* Mobile landscape: wide canvas */
+@media (max-width:900px) and (orientation:landscape) {
+    #gameCanvas {
+        width: 92vw;
+        height: calc(92vw * 0.56)
+    }
+
+    .top-ui {
+        padding: 6px
+    }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion:reduce) {
+
+    .mode-btn,
+    .control-btn {
+        animation: none;
+        transition: none
+    }
+
+    .btn-ripple .ripple {
+        animation: none;
+        display: none
+    }
+}
+
+/* ======================================
+   MOBILE PLAYSTORE STYLE
+====================================== */
+
+.game-perspective {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* MOBILE ONLY */
+@media screen and (max-width: 768px) {
+
+    body {
+        overflow-x: hidden;
+    }
+
+    /* Hide mobile buttons */
+    .touch-controls {
+        display: none;
+    }
+
+    /* Better layout */
+    .top-ui {
+        flex-direction: column;
+        gap: 12px;
+        padding: 15px;
+    }
+
+    /* Canvas scales properly */
+    #gameCanvas {
+        width: 95vw;
+        height: auto;
+        max-height: 70vh;
+
+        transform:
+            rotateX(10deg) scale(1.02);
+
+        transform-origin: bottom center;
+
+        border-radius: 24px;
+
+        box-shadow:
+            0 30px 80px rgba(0, 0, 0, 0.6),
+            0 0 40px rgba(0, 240, 255, 0.15);
+    }
+
+    /* Bigger score */
+    .scoreboard {
+        font-size: 30px;
+    }
+
+    /* Bigger buttons */
+    .mode-btn,
+    .control-btn {
+        width: 100%;
+        max-width: 280px;
+        font-size: 15px;
+    }
+}
+
+/* LANDSCAPE MOBILE */
+@media screen and (max-width: 900px) and (orientation: landscape) {
+
+    .top-ui {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    #gameCanvas {
+        width: 88vw;
+        max-height: 75vh;
+
+        transform:
+            rotateX(5deg) scale(1);
+    }
+}
+
+
+/* ===========================
+   MOBILE IMPROVEMENTS
+=========================== */
+
+/* Portrait phones */
+@media screen and (max-width:768px) and (orientation:portrait) {
+
+    /* hide buttons in portrait */
+    .touch-controls {
+        display: none;
+    }
+
+    /* stack UI nicely */
+    .top-ui {
+        flex-direction: column;
+        gap: 12px;
+        padding: 12px;
+    }
+
+    /* responsive canvas */
+    #gameCanvas {
+        width: 95vw;
+        height: auto;
+        max-width: 100%;
+    }
+
+    .scoreboard {
+        font-size: 30px;
+    }
+}
+
+/* Landscape phones */
+@media screen and (max-width:900px) and (orientation:landscape) {
+
+    #gameCanvas {
+        width: 85vw;
+        height: auto;
+    }
+
+    .touch-controls {
+
+        display: flex;
+
+        position: fixed;
+
+        top: 50%;
+
+        left: 0;
+        right: 0;
+
+        transform: translateY(-50%);
+
+        justify-content: space-between;
+
+        padding: 0 15px;
+
+        z-index: 999;
+
+        pointer-events: none;
+    }
+
+    .touch-btn {
+
+        pointer-events: auto;
+
+        width: 80px;
+        height: 80px;
+
+        border-radius: 50%;
+
+        font-size: 30px;
+
+        opacity: 0.6;
+    }
+
+}
+
+
+
+
+/* ====================================
+   PREMIUM NEON GAME STYLE
+==================================== */
+
+/* Scoreboard */
+
+.scoreboard {
+
+    color: #00f0ff;
+
+    font-weight: 900;
+
+    text-shadow:
+        0 0 10px #00f0ff,
+        0 0 20px #00f0ff,
+        0 0 30px #00f0ff;
+
+    letter-spacing: 2px;
+}
+
+/* Buttons */
+
+.mode-btn,
+.control-btn {
+
+    border: 1px solid rgba(0, 240, 255, .4);
+
+    box-shadow:
+        0 0 15px rgba(0, 240, 255, .3),
+        0 0 30px rgba(0, 240, 255, .15);
+
+}
+
+/* Canvas neon border */
+
+#gameCanvas {
+
+    border: 2px solid rgba(0, 240, 255, .3);
+
+    box-shadow:
+        0 0 20px rgba(0, 240, 255, .25),
+        0 0 40px rgba(0, 240, 255, .15),
+        0 0 70px rgba(0, 240, 255, .08);
+}
+
+/* Hover glow */
+
+.mode-btn:hover,
+.control-btn:hover {
+
+    box-shadow:
+        0 0 25px rgba(0, 240, 255, .5),
+        0 0 50px rgba(0, 240, 255, .2);
+
+}
+
+/* Score pulse */
+
+.scoreboard {
+
+    animation: neonPulse 2s infinite;
+}
+
+@keyframes neonPulse {
+
+    0% {
+
+        text-shadow:
+            0 0 10px #00f0ff,
+            0 0 20px #00f0ff;
+
+    }
+
+    50% {
+
+        text-shadow:
+            0 0 20px #00f0ff,
+            0 0 40px #00f0ff;
+
+    }
+
+    100% {
+
+        text-shadow:
+            0 0 10px #00f0ff,
+            0 0 20px #00f0ff;
+
+    }
+
+}

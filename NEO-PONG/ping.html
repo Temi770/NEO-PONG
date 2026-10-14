@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no" />
+    <title>Ping Pong Game</title>
+
+    <!-- Fonts & icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Your CSS -->
+    <link rel="stylesheet" href="ping.css" />
+</head>
+
+<body>
+    <div id="app-wrap">
+       
+
+        <header class="top-ui" role="banner">
+            <div class="mode-buttons" role="group" aria-label="Game mode">
+                <button id="modeAI" class="mode-btn active" aria-pressed="true"><i class="fas fa-robot"></i> Vs
+                    AI</button>
+                <button id="modeLocal" class="mode-btn" aria-pressed="false"><i class="fas fa-users"></i>
+                    Multiplayer</button>
+            </div>
+
+            <div class="game-buttons" role="group" aria-label="Game controls">
+                <button id="pauseBtn" class="control-btn"><i class="fas fa-pause"></i> Pause</button>
+                <button id="restartBtn" class="control-btn"><i class="fas fa-rotate-right"></i> Restart</button>
+            </div>
+
+            <div class="scoreboard" aria-live="polite">
+                <span id="scoreP1">0</span> - <span id="scoreP2">0</span>
+            </div>
+        </header>
+
+        <main id="game-wrap" role="main">
+            <!-- Canvas: size controlled by JS/CSS for responsiveness -->
+        <div class="game-perspective">
+            <canvas id="gameCanvas" width="720" height="480" role="img" aria-label="Ping Pong game canvas"></canvas>
+        </div>
+
+            <!-- UI overlay for mobile touch controls -->
+            <div class="touch-controls" aria-hidden="false">
+                <button id="leftBtn" class="touch-btn" aria-label="Move left">◀</button>
+                <button id="rightBtn" class="touch-btn" aria-label="Move right">▶</button>
+            </div>
+        </main>
+    </div>
+
+    <!-- Your JS -->
+    <script src="ping.js" defer></script>
+</body>
+
+</html>
