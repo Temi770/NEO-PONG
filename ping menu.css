@@ -1,0 +1,243 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: radial-gradient(circle, #111827 0%, #0a0f1a 100%);
+    min-height: 100vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-family: 'Orbitron', sans-serif;
+}
+
+.menu-container {
+    text-align: center;
+}
+
+.neo-title {
+    color: #00f0ff;
+
+    font-size: clamp(3rem, 12vw, 7rem);
+
+    text-shadow:
+        0 0 10px #00f0ff,
+        0 0 20px #00f0ff,
+        0 0 40px #00f0ff,
+        0 0 80px #00f0ff;
+
+    margin-bottom: 15px;
+}
+
+.tagline {
+    color: #ffffff;
+
+    opacity: 0.8;
+
+    margin-bottom: 40px;
+
+    font-size: 1.1rem;
+}
+
+.play-btn {
+    display: inline-block;
+
+    padding: 16px 50px;
+
+    background: linear-gradient(180deg,
+            #00f0ff,
+            #00b8c8);
+
+    color: #04141b;
+
+    text-decoration: none;
+
+    font-weight: bold;
+
+    border-radius: 16px;
+
+    transition: 0.3s;
+
+    box-shadow:
+        0 0 20px rgba(0, 240, 255, 0.5),
+        0 0 40px rgba(0, 240, 255, 0.3);
+}
+
+.play-btn:hover {
+    transform: scale(1.08);
+
+    box-shadow:
+        0 0 40px rgba(0, 240, 255, 0.8),
+        0 0 80px rgba(0, 240, 255, 0.5);
+}
+.quote {
+    color: #ffffff;
+    opacity: 0.9;
+    margin-top: 20px;
+}
+
+
+.landscape-tip {
+    color: #ffffff;
+    opacity: 0.85;
+    margin-top: 15px;
+}
+
+
+.intro-text {
+    color: #ffffff;
+    opacity: 0.85;
+    margin-top: 15px;
+}
+
+
+
+
+/* MOBILE OPTIMIZATION */
+
+@media screen and (max-width: 768px) {
+
+    .menu-container {
+
+        width: 90%;
+
+        padding: 20px;
+    }
+
+    .neo-title {
+
+        font-size: clamp(3rem, 14vw, 5rem);
+
+        line-height: 1;
+    }
+
+    .tagline {
+
+        font-size: 1.1rem;
+
+        padding: 0 10px;
+    }
+
+    .quote {
+
+        font-size: 0.95rem;
+
+        padding: 0 10px;
+    }
+
+    .landscape-tip {
+
+        font-size: 0.9rem;
+
+        padding: 0 10px;
+    }
+
+    .play-btn {
+
+        width: 220px;
+
+        text-align: center;
+
+        font-size: 1.2rem;
+    }
+
+}
+
+@media screen and (max-width: 768px) {
+
+    .neo-title {
+
+        font-size: clamp(2.8rem, 10vw, 4.5rem);
+
+        white-space: nowrap;
+
+        letter-spacing: 2px;
+
+        line-height: 1;
+
+    }
+
+}
+
+
+
+
+
+.neo-title {
+
+    display: flex;
+
+    justify-content: center;
+
+    align-items: center;
+
+    gap: 18px;
+
+    color: #00f0ff;
+
+    font-size: clamp(3rem, 10vw, 7rem);
+
+    font-weight: 900;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        0 0 10px #00f0ff,
+        0 0 20px #00f0ff,
+        0 0 40px #00f0ff;
+}
+
+/* Left word */
+
+.neo-left {
+
+    transform: translateY(-4px);
+}
+
+/* Right word */
+
+.neo-right {
+
+    transform: translateY(4px);
+}
+
+/* Glowing ball */
+
+.neo-ball {
+
+    width: 22px;
+
+    height: 22px;
+
+    border-radius: 50%;
+
+    background: white;
+
+    box-shadow:
+        0 0 10px #00f0ff,
+        0 0 20px #00f0ff,
+        0 0 40px #00f0ff,
+        0 0 80px #00f0ff;
+
+    animation: ballPulse 1.5s infinite ease-in-out;
+}
+
+@keyframes ballPulse {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.35);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
